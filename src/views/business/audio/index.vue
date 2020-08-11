@@ -59,17 +59,8 @@
             </el-cascader>
           </el-form-item>
           <el-form-item label="封面图" prop="thumb" required>
-              <el-upload
-                  :headers = "myHeaders"
-                  :show-file-list="false"
-                  :on-success="handleSuccess"
-                  :on-error="handleError"
-                  :action="imagesUploadApi"
-                  class="upload-demo"
-                  style="width:260px"
-              >
-                  <img :src="form.thumb ? form.thumb : defaultPic" title="点击上传图片" class="avatar" style="width:140px;height:140px">
-              </el-upload>
+            <img :src="form.thumb ? form.thumb : defaultPic" title="点击上传图片" class="avatar" style="width:140px;height:140px">
+            <cropper :share="shareF" @feedback="feedbackF"></cropper>
           </el-form-item>
           <el-form-item label="音频文件" prop="url" required>
             <el-upload
@@ -172,12 +163,15 @@ import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 import defaultPic from '@/assets/images/default.jpg'
 import { mapGetters } from 'vuex'
 import { getToken } from "@/utils/auth";
+
+import cropper from "@/components/vueCropper";
+
 const defaultForm = {id:'',title: '',album_id:[],thumb: '',url: '',display:true,listorder: 999};
 
 export default {
   name: 'Audio',
   inject:['reload'],
-  components: { Treeselect },
+  components: { Treeselect , cropper },
   data() {
     return {
       myHeaders: {
@@ -212,7 +206,11 @@ export default {
         url: [
           { required: true, message: '请上传音频文件', trigger: 'blur' },
         ]
-      }
+      },
+      shareF: {
+        // 裁剪
+       
+      },
     }
   },
   created(){
@@ -388,7 +386,12 @@ export default {
       sort({id:id,listorder:listorder}).then(res=>{
         this.audioList(this.page.page,this.page.size)
       })
-    }
+    },
+    feedbackF(opt) {
+      this.$hyUpload(opt.formData).then((res) => {
+        this.form.thumb = res.file_url + res.filename;
+      });
+    },
   }
 }
 </script>

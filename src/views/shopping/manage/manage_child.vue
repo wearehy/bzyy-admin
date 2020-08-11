@@ -26,7 +26,8 @@
           <p class="cRed">*第一张图片作为展示图片 (建议尺寸：800x800)</p>
           <ul class="overflow">
             <li
-              class="lft overflow img108 relative" style="margin-right:1px;margin-bottom:1px"
+              class="lft overflow img108 relative"
+              style="margin-right:1px;margin-bottom:1px"
               v-for="(item,index) in form.mailCommodity.images"
               :key="index"
             >
@@ -47,7 +48,7 @@
           <div class="pic_img">
             <div class="pic_img_box">
               <el-upload
-                :headers = "myHeaders"
+                :headers="myHeaders"
                 class="avatar-uploader"
                 :action="this.baseApi + '/upload'"
                 v-bind:data="{FoldPath:'上传目录',SecretKey:'安全验证'}"
@@ -94,7 +95,12 @@
               :disabled="item.isDisplay != 0"
             ></el-option>
           </el-select>
-          <el-button :disabled="$permissionButton('/mail/category/all')" class="mL10" type="primary" @click="categoryGo">修改品类</el-button>
+          <el-button
+            :disabled="$permissionButton('/mail/category/all')"
+            class="mL10"
+            type="primary"
+            @click="categoryGo"
+          >修改品类</el-button>
         </el-form-item>
         <el-form-item label="商品分组" prop="mailCommodity.commodityGroup">
           <el-select v-model="form.mailCommodity.commodityGroup" placeholder="请选择">
@@ -106,7 +112,12 @@
               :disabled="item.isDisplay != 0"
             ></el-option>
           </el-select>
-          <el-button :disabled="$permissionButton('/mail/commodity/group/all')" class="mL10" type="primary" @click="groupGo">修改分组</el-button>
+          <el-button
+            :disabled="$permissionButton('/mail/commodity/group/all')"
+            class="mL10"
+            type="primary"
+            @click="groupGo"
+          >修改分组</el-button>
         </el-form-item>
 
         <div class="pageTitle">商品规格</div>
@@ -183,7 +194,10 @@
         </el-form-item>
 
         <div class="pageTitle">物流信息</div>
-        <el-form-item label="快递运费" :prop="form.mailCommodity.freightType == 1?'mailCommodity.freightPrice':'mailCommodity.freightTypeGuid'">
+        <el-form-item
+          label="快递运费"
+          :prop="form.mailCommodity.freightType == 1?'mailCommodity.freightPrice':'mailCommodity.freightTypeGuid'"
+        >
           <el-radio-group v-model="form.mailCommodity.freightType" @change="freightChange">
             <el-row class="bottom5">
               <el-radio :label="1">
@@ -218,7 +232,12 @@
                 ></el-option>
               </el-select>
 
-              <el-button :disabled="$permissionButton('/mail/freight/all')" class="mL10" type="primary" @click="freightGo">修改邮费模板</el-button>
+              <el-button
+                :disabled="$permissionButton('/mail/freight/all')"
+                class="mL10"
+                type="primary"
+                @click="freightGo"
+              >修改邮费模板</el-button>
             </el-row>
           </el-radio-group>
         </el-form-item>
@@ -264,7 +283,7 @@ import {
   commodityGroupGet,
   freightGet,
   commodityUpdate,
-  commodityAdd
+  commodityAdd,
 } from "@/api/shopping/manage.js";
 
 import cropper from "@/components/vueCropper";
@@ -290,7 +309,7 @@ const mailCommodity = {
   images: [], //商品的图片
   video: null, //商品的视频
   sort: null,
-  commodityInfo: "" //商品的详情
+  commodityInfo: "", //商品的详情
 };
 
 export default {
@@ -298,56 +317,48 @@ export default {
   data() {
     return {
       myHeaders: {
-        Authorization: getToken()
+        Authorization: getToken(),
       },
       form: {
         mailCommodity: null,
-        mailCommodityPrice: null
+        mailCommodityPrice: null,
       },
 
       rules: {
         "mailCommodity.name": [
-          { required: true, message: "请输入商品名！", trigger: "blur" }
+          { required: true, message: "请输入商品名！", trigger: "blur" },
         ],
         "mailCommodity.images": [
-          { required: true, message: "请传入商品图！", trigger: "blur" }
+          { required: true, message: "请传入商品图！", trigger: "blur" },
         ],
         "mailCommodity.commodityCategory": [
-          { required: true, message: "请选择商品品类！", trigger: "blur" }
+          { required: true, message: "请选择商品品类！", trigger: "blur" },
         ],
         "mailCommodity.commodityGroup": [
-          { required: true, message: "请选择商品分组！", trigger: "blur" }
+          { required: true, message: "请选择商品分组！", trigger: "blur" },
         ],
         mailCommodityPrice: [
-          { required: true, message: "请添加商品规格！", trigger: "blur" }
+          { required: true, message: "请添加商品规格！", trigger: "blur" },
         ],
-        'mailCommodity.freightPrice': [
-          { required: true, message: "请输入邮费！", trigger: "blur" }
+        "mailCommodity.freightPrice": [
+          { required: true, message: "请输入邮费！", trigger: "blur" },
         ],
-        'mailCommodity.freightTypeGuid': [
-          { required: true, message: "请选择邮费模板！", trigger: "blur" }
+        "mailCommodity.freightTypeGuid": [
+          { required: true, message: "请选择邮费模板！", trigger: "blur" },
         ],
-
-        
       },
       shareF: {
-       
         // 裁剪
-        autoCropWidth: 200, //宽
-        autoCropHeight: 200, //高
-        
+      
       },
       sizeShareF: {
-      
         // 裁剪
-        autoCropWidth: 200, //宽
-        autoCropHeight: 200, //高
-        
+      
       },
       sizeNum: 0, //商品规格下标
       cropperVal: null, //vueCropper 反馈
       formMovie: {
-        posterURL: ""
+        posterURL: "",
       },
 
       videoFlag: false,
@@ -357,11 +368,11 @@ export default {
       isShowUploadVideo: false,
       //显示上传按钮
       videoForm: {
-        showVideoPath: ""
+        showVideoPath: "",
       },
       selects: {
         category: [],
-        group: []
+        group: [],
       },
 
       expressPrice: 0, //统一邮费
@@ -369,13 +380,13 @@ export default {
 
       //富文本
       fwbBool: false,
-      editorOption: {}
+      editorOption: {},
     };
   },
   watch: {
     guid(val) {
       this.load();
-    }
+    },
   },
   created() {
     this.load();
@@ -383,7 +394,7 @@ export default {
   },
   props: ["guid"],
   computed: {
-    ...mapGetters(["baseApi"])
+    ...mapGetters(["baseApi"]),
   },
   components: { cropper, quillEditor },
   methods: {
@@ -395,14 +406,14 @@ export default {
       console.log(this.form);
     },
     commodityInfoFun() {
-      commodityInfo({ guid: this.guid }).then(res => {
+      commodityInfo({ guid: this.guid }).then((res) => {
         // this.form = res;
         this.form.mailCommodity = res.mailCommodity;
         this.form.mailCommodityPrice = res.mailCommodityPrice;
         res.mailCommodity.video &&
           (this.videoForm.showVideoPath = res.mailCommodity.video);
 
-        this.form.mailCommodityPrice.map(item => {
+        this.form.mailCommodityPrice.map((item) => {
           item.price = (item.price / 100).toFixed(2);
         });
         this.form.mailCommodity.freightPrice = (
@@ -412,13 +423,13 @@ export default {
     },
 
     loads() {
-      categoryGet().then(res => {
+      categoryGet().then((res) => {
         this.selects.category = res;
       });
-      commodityGroupGet().then(res => {
+      commodityGroupGet().then((res) => {
         this.selects.group = res;
       });
-      freightGet().then(res => {
+      freightGet().then((res) => {
         this.expressTemplates = res;
         // this.form.mailCommodity.freightTypeGuid = res[0].freightTypeGuid;
       });
@@ -430,14 +441,14 @@ export default {
     // 商品图 裁剪
     feedbackF(opt) {
       // this.form.mailCommodity.images.push(opt.url);
-      this.$hyUpload(opt.formData).then(res => {
+      this.$hyUpload(opt.formData).then((res) => {
         this.form.mailCommodity.images.push(res.file_url + res.filename);
       });
     },
     // 规格图裁剪
     sizeFeedbackF(opt) {
       // this.form.mailCommodityPrice[num].specsImage = opt.url;
-      this.$hyUpload(opt.formData).then(res => {
+      this.$hyUpload(opt.formData).then((res) => {
         this.form.mailCommodityPrice[this.sizeNum].specsImage =
           res.file_url + res.filename;
       });
@@ -462,7 +473,7 @@ export default {
           "video/avi",
           "video/wmv",
           "video/rmvb",
-          "video/mov"
+          "video/mov",
         ].indexOf(file.type) == -1
       ) {
         this.$message.error("请上传正确的视频格式");
@@ -525,7 +536,7 @@ export default {
         createTime: null,
         isDisplay: 0,
         specsImage: null,
-        images: []
+        images: [],
       });
       console.log(this.form.mailCommodityPrice);
     },
@@ -542,13 +553,13 @@ export default {
         mailCommodity: JSON.parse(JSON.stringify(this.form.mailCommodity)),
         mailCommodityPrice: JSON.parse(
           JSON.stringify(this.form.mailCommodityPrice)
-        )
+        ),
       };
-      this.form.mailCommodityPrice.map(item => {
+      this.form.mailCommodityPrice.map((item) => {
         !item.specsName ? (sizeListBool = true) : (sizeListBool = false);
       });
 
-      data.mailCommodityPrice.map(item => {
+      data.mailCommodityPrice.map((item) => {
         item.price = item.price * 100;
       });
       data.mailCommodity.freightPrice = data.mailCommodity.freightPrice * 100;
@@ -596,14 +607,14 @@ export default {
       //       });
       // }
       this.guid
-        ? this.$refs[form].validate(valid => {
+        ? this.$refs[form].validate((valid) => {
             if (valid) {
-              commodityUpdate(data).then(res => {
+              commodityUpdate(data).then((res) => {
                 this.$notify({
-                    title:'修改成功',
-                    type:'success',
-                    duration: 1500
-                })
+                  title: "修改成功",
+                  type: "success",
+                  duration: 1500,
+                });
                 this.closeFun();
               });
             } else {
@@ -611,14 +622,14 @@ export default {
               return false;
             }
           })
-        : this.$refs[form].validate(valid => {
+        : this.$refs[form].validate((valid) => {
             if (valid) {
-              commodityAdd(data).then(res => {
+              commodityAdd(data).then((res) => {
                 this.$notify({
-                    title:'添加成功',
-                    type:'success',
-                    duration: 1500
-                })
+                  title: "添加成功",
+                  type: "success",
+                  duration: 1500,
+                });
                 this.closeFun();
               });
             } else {
@@ -646,9 +657,13 @@ export default {
     renderHeader(h, { column }) {
       // h即为cerateElement的简写，具体可看vue官方文档
       return h("div", [
-        h("i",{
-          style: "color:red;font-size:14px;margin-right:4px",
-        },'*'),
+        h(
+          "i",
+          {
+            style: "color:red;font-size:14px;margin-right:4px",
+          },
+          "*"
+        ),
         h("span", column.label),
       ]);
     },
@@ -661,11 +676,11 @@ export default {
         ImageExtend: {
           loading: true,
           name: "file",
-          headers: xhr => {
+          headers: (xhr) => {
             xhr.setRequestHeader("authorization", getToken());
           },
           action: this.baseApi + "/upload",
-          response: res => {
+          response: (res) => {
             if (res.code == 200) {
               this.$message.success("上传成功！");
               return res.data.file_url + res.data.filename;
@@ -678,19 +693,19 @@ export default {
           }, // 可选参数 上传失败触发的事件
           success: () => {
             console.log("success");
-          } // 可选参数  上传成功触发的事件
+          }, // 可选参数  上传成功触发的事件
         },
         toolbar: {
           container: container,
           handlers: {
-            image: function() {
+            image: function () {
               QuillWatch.emit(this.quill.id);
-            }
-          }
-        }
-      }
+            },
+          },
+        },
+      },
     };
-  }
+  },
 };
 </script>
 

@@ -124,22 +124,13 @@
           />
         </el-form-item>
         <el-form-item label="合辑图片" prop="thumb" required>
-          <el-upload
-            :headers = "myHeaders"
-            :show-file-list="false"
-            :on-success="handleSuccess"
-            :on-error="handleError"
-            :action="imagesUploadApi"
-            class="upload-demo"
-            style="width:260px"
-          >
-            <img
-              :src="form.thumb ? form.thumb : defaultPic"
-              title="点击上传图片"
-              class="avatar"
-              style="width:140px;height:140px"
-            />
-          </el-upload>
+          <img
+            :src="form.thumb ? form.thumb : defaultPic"
+            title="点击上传图片"
+            class="avatar"
+            style="width:140px;height:140px"
+          />
+          <cropper :share="shareF" @feedback="feedbackF"></cropper>
         </el-form-item>
         <el-form-item label="状态" prop="display">
           <el-radio-group v-model="form.display" style="width: 242px;">
@@ -319,6 +310,8 @@ import defaultPic from "@/assets/images/default.jpg";
 import { mapGetters } from "vuex";
 import weekModel from '@/components/weekModel';
 
+import cropper from "@/components/vueCropper";
+
 const defaultForm = {
   id: "",
   title: "",
@@ -330,7 +323,11 @@ const defaultForm = {
 export default {
   name: "Album",
   inject: ["reload"],
-  // components: { Treeselect },
+  components: {
+    weekModel,
+    Treeselect,
+    cropper
+  },
   data() {
     return {
       myHeaders: {
@@ -372,15 +369,16 @@ export default {
         week: null,
         albumId: null
       },
-      bindName: null
+      bindName: null,
+
+      shareF: {
+        // 裁剪
+      
+      },
     };
   },
   created() {
     this.albumList(this.page.page, this.page.size);
-  },
-  components: {
-    weekModel,
-    Treeselect
   },
   computed: {
     ...mapGetters(["imagesUploadApi"])
@@ -597,6 +595,11 @@ export default {
     },
     weekNumF(val){
       this.bindForm.week = val
+    },
+    feedbackF(opt) {
+      this.$hyUpload(opt.formData).then((res) => {
+        this.form.thumb = res.file_url + res.filename;
+      });
     },
   }
 };

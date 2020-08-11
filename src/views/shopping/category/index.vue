@@ -158,8 +158,7 @@ export default {
         total: 0
       },
       shareF: {
-        autoCropWidth: 200, //宽
-        autoCropHeight: 200, //高
+      
         enlarge: "1", //倍数
         name: "上传图片"
       }
