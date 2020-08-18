@@ -53,7 +53,7 @@
                 <div class="f3">单价(元)/数量</div>
               </div>
             </li>
-            <li class="a2">孝心值</li>
+            <!-- <li class="a2">孝心值</li> -->
             <li class="a3">收货人</li>
             <li class="a4">配送方式</li>
             <li class="a5">实收金额(元)</li>
@@ -67,9 +67,10 @@
             <tbody v-for="items in orderList.list" :key="items.guid">
               <tr>
                 <td colspan="7" class="goods_bg">
-                  <div class="tTitle" v-if="items.address">
+                  <div class="tTitle" v-if="items">
                     <div class="flex">
                       <div class="padr30 wb fa">
+                        
                         <span class="inline-block wp300">订单号：{{items.orderNumber}}</span>
                         <span class="inline-block wp300">下单时间：{{items.createTime}}</span>
                       </div>
@@ -103,22 +104,25 @@
                 </td>
                 <!-- 孝心值 -->
 
-                <td class="a2" :rowspan="items.orderCommodity.length" v-if="num2 == 0">
+                <!-- <td class="a2" :rowspan="items.orderCommodity.length" v-if="num2 == 0">
                   <p
                     v-if="items.orderCommodity.length==1"
                   >{{(items.integralPrice/100).toFixed(2)}} (元)</p>
                   <p v-if="items.orderCommodity.length==1">{{items.integral}}</p>
 
                   <p v-if="items.orderCommodity.length!=1">N/A</p>
-                </td>
+                </td> -->
                 <!-- 收货人 -->
                 <td
                   class="a3"
                   :rowspan="items.orderCommodity.length"
-                  v-if="num2 == 0&&items.address"
+                  
                 >
-                  <p>{{items.address.name}}</p>
+                <template v-if="num2 == 0&&items.address">
+                   <p>{{items.address.name}}</p>
                   <p>{{items.address.mobile}}</p>
+                </template>
+                 
                 </td>
                 <!-- 配送方式 -->
                 <td class="a4" :rowspan="items.orderCommodity.length" v-if="num2 == 0">
@@ -167,7 +171,7 @@
         <el-pagination
           background
           :page-size="orderList.size"
-          :page-sizes="[1,10, 20, 50, 100]"
+          :page-sizes="[10, 20, 50, 100]"
           :total="orderList.total"
           :current-page="orderList.page"
           style="margin-top: 8px;"
@@ -219,7 +223,7 @@ export default {
         list: [],
         type: "6",
         page: 1,
-        size: 1,
+        size: 10,
         total: 0
       },
 
@@ -403,7 +407,7 @@ export default {
 .a5,
 .a6,
 .a7 {
-  width: 11%;
+  width: 13.2%;
 }
 
 table {
