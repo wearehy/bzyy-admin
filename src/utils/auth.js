@@ -10,10 +10,10 @@ export function getToken() {
 export function setToken(token,rememberMe) {
   if(rememberMe){
     // 登录页记住我，cookie存7天
-    return Cookies.set(TokenKey, token,{expires: 7})
+    return Cookies.set(TokenKey, token,{expires: Config.tokenCookieExpires})
   }else{
     // 登录页记住我，cookie存1小时
-    return Cookies.set(TokenKey, token,{expires: 1/24})
+    return Cookies.set(TokenKey, token,{expires: 0.05})
   }
   
 }
