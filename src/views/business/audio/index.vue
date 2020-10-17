@@ -127,9 +127,9 @@
               />
             </template>
         </el-table-column>
-        <el-table-column width="135px" prop="createTime" label="创建日期" sortable align="center">
+        <el-table-column width="135px" prop="create_time" label="创建日期" sortable align="center">
             <template slot-scope="scope">
-            <span>{{ scope.row.createTime }}</span>
+            <span>{{ scope.row.create_time }}</span>
             </template>
         </el-table-column>
         <el-table-column label="操作" width="130px" align="center" fixed="right">
@@ -225,8 +225,8 @@ export default {
     audioList(page,size){
       audio({page:page,size:size}).then(res => {
         this.tableData = res.data
-        this.page.page = res.page
-        this.page.size = res.size
+        // this.page.page = res.page
+        // this.page.size = res.size
         this.page.total = res.total
         setTimeout(()=>{
           this.loading =false
@@ -373,8 +373,8 @@ export default {
     handleSearch(){
       search({title:this.searchTitle}).then(res=>{
         this.tableData = res.data
-        this.page.page = res.page
-        this.page.size = res.size
+        // this.page.page = res.page
+        // this.page.size = res.size
         this.page.total = res.total
       })
     },

@@ -45,10 +45,12 @@
               <el-input-number v-model="scope.row.listorder" :min="0" :max="999" controls-position="right" placeholder="默认按升序" @change="handleSort(scope.row.id,scope.row.listorder)"></el-input-number>
             </template>
         </el-table-column>
-        <el-table-column prop="display" label="状态" sortable align="center">
+        <el-table-column prop="display"  label="状态" sortable align="center">
             <template slot-scope="scope">
               <el-switch
                 v-model="scope.row.display"
+                :active-value="parseInt(1)" 
+                :inactive-value="parseInt(0)"
                 active-color="#13ce66"
                 inactive-color="#F56C6C"
                 @change="changeStatus(scope.row.id, scope.row.display)"
@@ -116,8 +118,8 @@ export default {
     recomCateList(page,size){
       recomCateList({page:page,size:size}).then(res => {
         this.tableData = res.data
-        this.page.page = res.page
-        this.page.size = res.size
+        // this.page.page = res.page
+        // this.page.size = res.size
         this.page.total = res.total
         setTimeout(()=>{
           this.loading =false
@@ -168,7 +170,9 @@ export default {
     },
     // 更改状态
     changeStatus(id,display){
-        changeRecomCateStatus({id:id,display:display}).then(res=>{
+        let setDisplay = true;
+        setDisplay =  display == 0?false:true;
+        changeRecomCateStatus({id:id,display:setDisplay}).then(res=>{
             this.$notify({
                 title:'状态更改成功',
                 type:'success',
@@ -181,8 +185,8 @@ export default {
     handleSearch(){
       search({title:this.search.title,cate_id:this.search.cate_id}).then(res=>{
           this.tableData = res.data
-          this.page.page = res.page
-          this.page.size = res.size
+          // this.page.page = res.page
+          // this.page.size = res.size
           this.page.total = res.total
         })
     },

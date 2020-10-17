@@ -26,13 +26,13 @@ import './router/index' // permission control
 import VueParticles from 'vue-particles'
 
 //import VueCropper from 'vue-cropper'  //vue-cropper 图片裁剪工具
-import VueCropper from '../public/vue-cropper/dist/index.js'  //因为做了修改，vue-cropper 放入public
+import VueCropper from '../public/vue-cropper/dist/index.js' //因为做了修改，vue-cropper 放入public
 
 //屏蔽vue-router报错问题
 import Router from 'vue-router'
 const routerPush = Router.prototype.push
 Router.prototype.push = function push(location) {
-return routerPush.call(this, location).catch(error=> error)
+  return routerPush.call(this, location).catch(error => error)
 }
 
 import hyUpload from '@/utils/hyUpload.js'
@@ -52,6 +52,13 @@ Vue.use(Element, {
   size: Cookies.get('size') || 'small' // set element-ui default size
 })
 Vue.use(VueParticles)
+
+//vue-video-player
+import VideoPlayer from 'vue-video-player'
+require('video.js/dist/video-js.css')
+require('vue-video-player/src/custom-theme.css')
+Vue.use(VideoPlayer)
+
 
 Vue.config.productionTip = false
 

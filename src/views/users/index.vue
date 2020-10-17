@@ -167,8 +167,8 @@ export default {
     userList(page, size) {
       users({ page: page, size: size }).then((res) => {
         this.tableData = res.data;
-        this.page.page = res.page;
-        this.page.size = res.size;
+        // this.page.page = res.page;
+        // this.page.size = res.size;
         this.page.total = res.total;
         setTimeout(() => {
           this.loading = false;
@@ -261,8 +261,8 @@ export default {
         user_stage: this.search.user_stage,
       }).then((res) => {
         this.tableData = res.data;
-        this.page.page = res.page;
-        this.page.size = res.size;
+        // this.page.page = res.page;
+        // this.page.size = res.size;
         this.page.total = res.total;
       });
     },

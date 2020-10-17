@@ -1,4 +1,5 @@
 <template>
+  <!-- 动态管理->分类管理 -->
   <div class="app-container">
     <!--工具栏-->
     <div class="head-container">
@@ -75,12 +76,12 @@
               />
             </template>
         </el-table-column>
-        <el-table-column width="135px" prop="create_time" label="创建日期">
+        <el-table-column width="135px" prop="createTime" label="创建日期">
             <template slot-scope="scope">
-            <span>{{ scope.row.create_time }}</span>
+            <span>{{ scope.row.createTime }}</span>
             </template>
         </el-table-column>
-        <el-table-column width="135px" prop="update_time" label="修改日期">
+        <el-table-column width="135px" prop="createTime" label="修改日期">
             <template slot-scope="scope">
             <span>{{ scope.row.update_time }}</span>
             </template>
@@ -93,28 +94,16 @@
       </el-table-column>
     </el-table>
 
-    <!-- 分页 -->
-    <el-pagination
-        background
-        :page-size="page.size"
-        :page-sizes="[10, 20, 50, 100]"
-        :total="page.total"
-        :current-page="page.page"
-        style="margin-top: 8px;"
-        layout="total, prev, pager, next, sizes"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-  />
   </div>
 </template>
 
 <script>
-import {admin, add, edit, del,getAllRole,changeStatus} from '@/api/auth/admin'
+import {typeList, typeAdd, typeEdit} from '@/api/dynamic/type.js'
 import Avatar from '@/assets/images/avatar.png'
 
 const defaultForm = {id:'',username: '',password:'',nickname: '',role_id: ''}
 export default {
-  name: 'Menu',
+  name: 'type',
   inject:['reload'],
   data() {
     return {
@@ -145,35 +134,27 @@ export default {
     }
   },
   created(){
-      this.adminList(this.page.page,this.page.size)
+      this.typeList()
   },
   methods: {
-    adminList(page,size){
-      admin({page:page,size:size}).then(res => {
+    typeList(){
+      typeList().then(res => {
         this.tableData = res.data
-        var len = this.tableData.length;
-        for(let i=0;i<len;i++){
-          this.tableData[i].status == 1?this.tableData[i].statusBool = true: this.tableData[i].statusBool  = false;
-        }
-
-        // this.page.page = res.page
-        // this.page.size = res.size
-        this.page.total = res.total
+       
         setTimeout(()=>{
           this.loading =false
-        },50)
-        
+        },50) 
       })
     },
     // 改变每页显示数量事件
     handleSizeChange(val) {
       this.page.size = val;
-      this.adminList(1, val);
+      this.typeList(1, val);
     },
     // 翻页
     handleCurrentChange(val) {
       this.page.page = val;
-      this.adminList(val, this.page.size);
+      this.typeList(val, this.page.size);
     },
     //添加表单dialog
     handelAdd() {
@@ -220,7 +201,7 @@ export default {
                         duration: 1500
                     })
                     this.$refs['form'].resetFields()
-                this.adminList(this.page.page,this.page.size)
+                this.typeList(this.page.page,this.page.size)
                 this.dialog =false
                 })
           }else{
@@ -241,7 +222,7 @@ export default {
                     duration: 1500
                 })
                 this.$refs['form'].resetFields()
-                this.adminList(this.page.page,this.page.size)
+                this.typeList(this.page.page,this.page.size)
                 this.dialog =false
             })
           }else{
@@ -264,7 +245,7 @@ export default {
                 type:'success',
                 duration: 1500
             })
-            this.adminList(this.page.page,this.page.size)
+            this.typeList(this.page.page,this.page.size)
         })
       })
 
@@ -277,7 +258,7 @@ export default {
                 type:'success',
                 duration: 1500
             })
-            this.adminList(this.page.page,this.page.size)
+            this.typeList(this.page.page,this.page.size)
         })
     }
   }

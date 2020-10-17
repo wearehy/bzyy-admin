@@ -98,7 +98,7 @@
           <img :src="scope.row.image ? scope.row.image : defaultPic" :width="40" class="avatar" />
         </template>
       </el-table-column>
-      <el-table-column prop="sort" align="center" label="排序">
+      <el-table-column prop="listorder" align="center" label="排序">
         <template slot-scope="scope">{{ scope.row.listorder }}</template>
       </el-table-column>
       <el-table-column prop="display" label="状态">
@@ -111,9 +111,9 @@
           />
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" label="创建日期" width="135px">
+      <el-table-column prop="create_time" label="创建日期" width="135px">
         <template slot-scope="scope">
-          <span>{{ scope.row.createTime }}</span>
+          <span>{{ scope.row.create_time }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="130px" align="center" fixed="right">

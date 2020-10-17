@@ -38,7 +38,7 @@ service.interceptors.response.use(
       return Promise.reject('error')
     } else {
       const res = response.data
-      if ( res.code ==201 || res.code == 400) { //后端返回的自定义错误
+      if ( res.code ==201 || res.code == 400 || res.code == 5001 ) { //后端返回的自定义错误
         Notification.error({
           title: res.message,
           duration: 5000

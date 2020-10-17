@@ -80,8 +80,8 @@ export default {
     babyList(page,size){
       baby({page:page,size:size}).then(res => {
         this.tableData = res.list
-        this.page.page = res.page
-        this.page.size = res.size
+        // this.page.page = res.page
+        // this.page.size = res.size
         this.page.total = res.total
         setTimeout(()=>{
           this.loading =false

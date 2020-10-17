@@ -11,8 +11,17 @@
     >
       <h3 class="title">{{ title }} 后台管理系统</h3>
       <el-form-item prop="username">
-        <el-input v-model="loginForm.username" type="text" auto-complete="off" placeholder="账号">
-          <svg-icon slot="prefix" icon-class="user" class="el-input__icon input-icon" />
+        <el-input
+          v-model="loginForm.username"
+          type="text"
+          auto-complete="off"
+          placeholder="账号"
+        >
+          <svg-icon
+            slot="prefix"
+            icon-class="user"
+            class="el-input__icon input-icon"
+          />
         </el-input>
       </el-form-item>
       <el-form-item prop="password">
@@ -23,7 +32,11 @@
           placeholder="密码"
           @keyup.enter.native="handleLogin"
         >
-          <svg-icon slot="prefix" icon-class="password" class="el-input__icon input-icon" />
+          <svg-icon
+            slot="prefix"
+            icon-class="password"
+            class="el-input__icon input-icon"
+          />
         </el-input>
       </el-form-item>
       <el-form-item prop="code">
@@ -34,21 +47,25 @@
           style="width: 63%"
           @keyup.enter.native="handleLogin"
         >
-          <svg-icon slot="prefix" icon-class="validCode" class="el-input__icon input-icon" />
+          <svg-icon
+            slot="prefix"
+            icon-class="validCode"
+            class="el-input__icon input-icon"
+          />
         </el-input>
         <div class="login-code">
           <img id="codeSrc" @click="getCode" />
         </div>
       </el-form-item>
       <el-form-item prop="rememberMe">
-        <el-checkbox v-model="loginForm.rememberMe" >记住我</el-checkbox>
+        <el-checkbox v-model="loginForm.rememberMe">记住我</el-checkbox>
       </el-form-item>
-      <el-form-item style="width:100%;">
+      <el-form-item style="width: 100%">
         <el-button
           :loading="loading"
           size="medium"
           type="primary"
-          style="width:100%;"
+          style="width: 100%"
           @click.native.prevent="handleLogin"
         >
           <span v-if="!loading">登 录</span>
@@ -60,7 +77,9 @@
     <div v-if="$store.state.settings.showFooter" id="el-login-footer">
       <span>{{ copyRight }}</span>
       <span>⋅</span>
-      <a href="http://www.beian.miit.gov.cn" target="_blank">{{ caseNumber }}</a>
+      <a href="http://www.beian.miit.gov.cn" target="_blank">{{
+        caseNumber
+      }}</a>
     </div>
   </div>
 </template>
@@ -81,28 +100,30 @@ export default {
         username: "",
         password: "",
         code: "",
-        rememberMe: false
+        rememberMe: false,
       },
       loginRules: {
         username: [
-          { required: true, trigger: "blur", message: "用户名不能为空" }
+          { required: true, trigger: "blur", message: "用户名不能为空" },
         ],
         password: [
-          { required: true, trigger: "blur", message: "密码不能为空" }
+          { required: true, trigger: "blur", message: "密码不能为空" },
         ],
-        code: [{ required: true, trigger: "change", message: "验证码不能为空" }]
+        code: [
+          { required: true, trigger: "change", message: "验证码不能为空" },
+        ],
       },
       loading: false,
-      redirect: undefined
+      redirect: undefined,
     };
   },
   watch: {
     $route: {
-      handler: function(route) {
+      handler: function (route) {
         this.redirect = route.query && route.query.redirect;
       },
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   created() {
     this.config();
@@ -110,7 +131,7 @@ export default {
   },
   methods: {
     getCode() {
-      getCodeImg().then(res => {
+      getCodeImg().then((res) => {
         this.verify = res.verify;
         let codeSrc = `${process.env.VUE_APP_BASE_API}` + "/createVerify";
         let objs = document.getElementById("codeSrc");
@@ -119,7 +140,7 @@ export default {
       });
     },
     config() {
-      config().then(res => {
+      config().then((res) => {
         this.title = res.title;
         this.caseNumber = res.caseNumber;
         this.copyRight = res.copyRight;
@@ -127,32 +148,34 @@ export default {
       });
     },
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
+      this.$refs.loginForm.validate((valid) => {
         const user = {
           username: this.loginForm.username,
           password: this.loginForm.password,
           code: this.loginForm.code,
           verify: this.verify,
-          rememberMe: this.loginForm.rememberMe
+          rememberMe: this.loginForm.rememberMe,
         };
 
         if (valid) {
           this.loading = true;
           this.$store
             .dispatch("Login", user)
-            .then(res => {
+            .then((res) => {
               this.$notify({
                 title: "登录成功",
                 type: "success",
-                duration: 1500
+                duration: 1500,
               });
 
               this.loading = false;
-              
-              this.$router.push({ path:  "/" });
-              location.reload();
+
+              // setTimeout(() => {
+                this.$router.push({ path: "/" });
+                location.reload();
+              // }, 5000);
             })
-            .catch(e => {
+            .catch((e) => {
               this.loading = false;
             });
         } else {
@@ -160,8 +183,8 @@ export default {
           return false;
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
